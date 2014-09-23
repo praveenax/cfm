@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>CFM</title>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+<script type="text/javascript">
+	$(document)
+			.ready(
+					function() {
+
+						function addBlocks(childBlock) {
+
+							$(childBlock)
+									.append(
+											"<div class='code-block'><button class='add-child'>+</button><button class='remove-child'>-</button><div class='child-blocks'></div></div>");
+						}
+						
+						function callEventListeners(){
+							$(".add-child").on('click', function() {
+								//.css( "background", "yellow" )
+
+								addBlocks($(this).siblings(".child-blocks"));
+								//callEventListeners();
+								bindListenerAdd($(this).siblings(".child-blocks").find('.add-child'));
+								bindListenerSub($(this).siblings(".child-blocks").find('.remove-child'));
+							});
+							
+							//remove-child
+							$(".remove-child").on('click', function() {
+								//.css( "background", "yellow" )
+								$(this).parent().remove();
+								
+							});
+							
+						}
+						
+						function bindListenerAdd(element){
+							$(element).on('click', function() {
+								//.css( "background", "yellow" )
+
+								addBlocks($(this).siblings(".child-blocks"));
+								bindListenerAdd($(this).siblings(".child-blocks").find('.add-child'));
+								bindListenerSub($(this).siblings(".child-blocks").find('.remove-child'));
+							//	callEventListeners();
+							});
+						}
+						function bindListenerSub(element){
+							$(element).on('click', function() {
+								//.css( "background", "yellow" )
+
+								$(this).parent().remove();
+							});
+						}
+						
+						callEventListeners();
+
+						
+					});
+</script>
+<style>
+#toolbox {
+	width: 20%;
+	background-color: aqua;
+	float: left;
+	clear: both;
+	height: 500px;
+}
+
+#code {
+	width: 75%;
+	background-color: orange;
+	float: right;
+	height: 500px;
+}
+
+.code-block {
+	width: 200px;
+	height: 200px;
+	background-color: green;
+}
+
+.child-blocks {
+	width: 100px;
+	height: 100px;
+	background-color: red;
+	margin-left: 50px;
+}
+</style>
+
+</head>
+<body>
+	<div id="toolbox"></div>
+	<div id="code">
+		<div class='code-block'>
+			<button class='add-child'>+</button>
+			<button class='remove-child'>-</button>
+
+			<div class='child-blocks'></div>
+		</div>
+
+	</div>
+
+</body>
+</html>
